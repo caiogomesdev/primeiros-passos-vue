@@ -1,0 +1,60 @@
+<style>
+#app{
+    position: absolute;
+    left: 50%; 
+    transform: 
+    translateX(-50%); 
+    display: flex; 
+    flex-direction: column; 
+    text-align: center;
+}
+span{
+    border: dashed 2px rgba(0,0,0,.8); 
+    padding: 10px 0px; 
+    border-radius: 10px; 
+    font-size: 20px;
+}
+#buttons{
+    display: flex; 
+    justify-content: 
+    space-between; 
+    margin-top: 15px; 
+    padding: 0px 10px;
+}
+button{
+    cursor: pointer;
+}
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+<div id="app" style="">
+    <h1>Contador</h1>
+        <span>{{nAtual}}</span>
+        <div id="buttons">
+            <button v-on:click="sub">-</button>
+            <button v-on:click="sum">+</button>
+        </div>
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data:{
+            msg: "Hello World",
+            nAtual: 0
+        },
+        methods:{
+            sum(){
+                this.nAtual++;
+            },
+            sub(){
+                if(this.nAtual <= 0){
+                    return;
+                }
+                this.nAtual--;
+            }
+        }
+    })
+</script>
