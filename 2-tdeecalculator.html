@@ -1,0 +1,186 @@
+<style>
+    *{
+        box-sizing: border-box;
+        margin: 0px;
+        padding: 0px;
+    }
+    #app{
+        font-family: sans-serif;
+    }
+    #app h1{
+        margin: 10px 0px;
+    }
+    .content{
+        display: flex;
+        justify-content: center;
+
+    }
+    .flexRow{
+        display: flex;
+        flex-direction: row;
+    }
+    .margin-horizontal{
+        margin: 0px 20px;
+    }
+    .margin-vertical{
+        margin: 10px 0px;
+    }
+    .flexColumn{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+    input, select{
+        margin-top: 5px;
+        height: 30px;
+        font-size: 16px;
+        padding-left: 2px;
+    }
+    button{
+        background-color: #b7e4c7;
+        padding: 5px 0px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+        transition: all ease-in-out .3s;
+    }
+    button:hover{
+        background-color: #95d5b2;
+    }
+
+    .results{
+        text-align: center;
+        margin-top: 30px;
+        text-align: left;
+        background-color: #d8f3dc;
+        padding: 5px 10px;
+        border-radius: 5px;
+
+
+    }
+    .results li{
+        list-style: none;
+        margin: 5px 0px;
+    }
+    .bodyResults{
+        display: flex;
+        align-items: center;
+    }
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+<div id="app">
+    <div class="content">
+        
+        
+        <div class="flexRow margin-horizontal">
+            <div class="bodyForm">
+                <h1>TDEE calculator</h1>
+                <div class="flexColumn margin-vertical">
+                    <label>Gênero:</label>
+                    <select name="genero" v-model="isMale" >
+                        <!-- Trabalhando com LOOP  -->
+                        <option v-for="gender in genres" v-bind:value="gender.value">
+                            {{gender.text}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="flexColumn margin-vertical">
+                    <label>Peso:</label>
+                    <input type="text" name="weight" id="weight" v-model="weight" placeholder="Peso em KG" >
+                </div>
+
+                <div class="flexColumn margin-vertical">
+                    <label>Altura:</label>
+                    <input type="text" name="height" id="height" v-model="height" placeholder="Altura em cm"/>
+                </div>
+
+                <div class="flexColumn margin-vertical">
+                    <label>Idade:</label>
+                    <input type="text" name="age" id="age" v-model="age" placeholder="Idade em Anos"/>
+                </div>
+                
+                <div class="flexColumn margin-vertical">
+                    <button v-on:click="CalculateBMR" >Calcular</button>
+                </div>
+
+
+                
+            </div>
+        </div>
+        <div class="flexRow margin-horizontal">
+            <div class="bodyResults">
+                <div class="results" v-if="result !== 0">
+                    
+                    <ul>
+                        <!-- <li><h3>Equação de Mifflin St Jeor</h3></li> -->
+                        <li>Taxa metabólica basal: {{result}} calorias por dia</li>
+                        <li>Sedentário: {{(result * 1.2).toFixed(2).replace("\.", (t)=> t = ",")}} calorias por dia</li>
+                        <li>Pouco exercicio: {{(result * 1.375).toFixed(2).replace("\.", (t)=> t = ",")}} calorias por dia</li>
+                        <li>Exercicio moderado: {{(result * 1.55).toFixed(2).replace("\.", (t)=> t = ",")}} calorias por dia</li>
+                        <li>Exercício Pesado: {{(result * 1.725).toFixed(2).replace("\.", (t)=> t = ",")}} calorias por dia</li>
+                        <li>Atleta: {{(result * 1.9).toFixed(2).replace("\.", (t)=> t = ",")}} calorias por dia</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data:{
+            isMale: true,
+            weight: '',
+            height: '',
+            age: '',
+            result: 0,
+            genres:[
+                {text : "Homem", value: true},
+                {text : "Mulher", value: false},
+            ]
+        },
+        methods: {
+            CalculateBMR(){
+                if(isNaN(parseFloat(this.age)) && isNaN(parseFloat(this.weight)) && isNaN(parseFloat(this.height))) return
+                if(this.isMale)
+                    this.MenBMR()
+                else
+                    this.WomenBMR()
+                
+                console.log(this.result)
+
+            },
+            MenBMR(){
+                this.result = Math.round((10 * this.weight) + (6.25 * this.height) - (5 * this.age) + 5)
+            },
+            WomenBMR(){
+                this.result = Math.round((this.height * 6.25) + (this.weight * 10) - (this.age * 5) - 161)
+            }
+        },
+        computed: {},
+        watch: {
+            isMale(New,Old){
+                console.log(`isMale: Novo valor: ${New} || Valor antigo: ${Old}`)
+            },
+            
+            weight(New,Old){
+                console.log(`weight: Novo valor: ${New} || Valor antigo: ${Old}`)
+            },
+            height(New, Old){
+                console.log(`height: Novo valor: ${New} || Valor antigo: ${Old}`)
+            },
+            age(New, Old){
+                console.log(`age: Novo valor: ${New} || Valor antigo: ${Old}`)
+            },
+        }
+        
+    })
+</script>
