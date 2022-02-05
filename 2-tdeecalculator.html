@@ -75,7 +75,6 @@
 <div id="app">
     <div class="content">
         
-        
         <div class="flexRow margin-horizontal">
             <div class="bodyForm">
                 <h1>TDEE calculator</h1>
@@ -117,13 +116,13 @@
                 <div class="results" v-if="result !== 0">
                     
                     <ul>
-                        <!-- <li><h3>Equação de Mifflin St Jeor</h3></li> -->
+                        <!-- Equação de Mifflin St Jeor -->
                         <li>Taxa metabólica basal: {{result}} calorias por dia</li>
-                        <li>Sedentário: {{(result * 1.2).toFixed(2).replace("\.", (t)=> t = ",")}} calorias por dia</li>
-                        <li>Pouco exercicio: {{(result * 1.375).toFixed(2).replace("\.", (t)=> t = ",")}} calorias por dia</li>
-                        <li>Exercicio moderado: {{(result * 1.55).toFixed(2).replace("\.", (t)=> t = ",")}} calorias por dia</li>
-                        <li>Exercício Pesado: {{(result * 1.725).toFixed(2).replace("\.", (t)=> t = ",")}} calorias por dia</li>
-                        <li>Atleta: {{(result * 1.9).toFixed(2).replace("\.", (t)=> t = ",")}} calorias por dia</li>
+                        <li>Sedentário: {{ShowResult(1.2)}} calorias por dia</li>
+                        <li>Pouco exercicio: {{ShowResult(1.375)}} calorias por dia</li>
+                        <li>Exercicio moderado: {{ShowResult(1.55)}} calorias por dia</li>
+                        <li>Exercício Pesado: {{ShowResult(1.725)}} calorias por dia</li>
+                        <li>Atleta: {{ShowResult(1.9)}} calorias por dia</li>
                     </ul>
 
                 </div>
@@ -163,6 +162,10 @@
             },
             WomenBMR(){
                 this.result = Math.round((this.height * 6.25) + (this.weight * 10) - (this.age * 5) - 161)
+            },
+            ShowResult(n){
+                return (this.result * n).toFixed(2).replace("\.", (t)=> t = ",")
+
             }
         },
         computed: {},
